@@ -1,0 +1,43 @@
+List<String> arrayList = new ArrayList<>();
+for (int i = 0; i < arrayList.size(); i++) {
+    System.out.println(arrayList.get(i));
+}
+
+
+List<String> linkedList = new LinkedList<>();
+for (String item : linkedList) {
+    System.out.println(item);
+}
+
+
+Set<String> hashSet = new HashSet<>();
+hashSet.forEach(System.out::println);
+
+
+Set<String> linkedHashSet = new LinkedHashSet<>();
+for (String s : linkedHashSet) {
+    System.out.println(s);
+}
+
+
+TreeSet<Integer> treeSet = new TreeSet<>();
+Iterator<Integer> reverseIt = treeSet.descendingIterator();
+while(reverseIt.hasNext()) {
+    System.out.println(reverseIt.next());
+}
+
+
+Map<Integer, String> hashMap = new HashMap<>();
+for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
+    System.out.println(entry.getKey() + " = " + entry.getValue());
+}
+
+
+Map<Integer, String> lhm = new LinkedHashMap<>();
+lhm.forEach((k, v) -> System.out.println(k + ":" + v));
+
+
+TreeMap<String, Integer> map = new TreeMap<>();
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " -> " + entry.getValue());
+}
