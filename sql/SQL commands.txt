@@ -1,0 +1,159 @@
+https://www.geeksforgeeks.org/sql/sql-ddl-dql-dml-dcl-tcl-commands/
+
+1) DDL — Data Definition Language
+
+Definition:
+DDL commands define and modify database structure — tables, schemas, indexes, etc. These commands affect the metadata and structure of database objects.
+
+-- Commands and Syntaxes
+CREATE 
+    -- Create a new database object
+    CREATE TABLE table_name (
+        column1 DATA_TYPE,
+        column2 DATA_TYPE,
+        ...
+    );
+
+DROP 
+    -- Delete an existing object
+    DROP TABLE table_name;
+
+ALTER 
+    -- Change structure of an existing object
+    ALTER TABLE table_name
+    ADD COLUMN column_name DATA_TYPE;
+
+TRUNCATE 
+    -- Remove all records from a table
+    TRUNCATE TABLE table_name;
+
+COMMENT 
+    -- Add comment to database object
+    COMMENT ON TABLE table_name IS 'Your comment';
+
+RENAME 
+    -- Rename an existing object
+    RENAME TABLE old_table_name TO new_table_name;
+
+
+Example:
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE
+);
+
+
+This creates the employees table with four columns.
+
+2) DQL — Data Query Language
+
+Definition:
+DQL is used to retrieve/fetch data from the database. The main command is SELECT. Other keywords like FROM, WHERE, GROUP BY, HAVING, ORDER BY, DISTINCT, and LIMIT are clauses of the SELECT query.
+
+-- DQL Syntax
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition
+GROUP BY column
+HAVING condition
+ORDER BY column [ASC | DESC]
+LIMIT number;
+
+
+Example:
+
+SELECT first_name, last_name, hire_date
+FROM employees
+WHERE department = 'Sales'
+ORDER BY hire_date DESC;
+
+
+This fetches employee names and hire dates from the employees table in the Sales department, sorted by most recent hire date.
+
+3) DML — Data Manipulation Language
+
+Definition:
+DML commands manipulate the data within tables: inserting, updating, or deleting records.
+
+-- DML Commands and Syntax
+INSERT
+    -- Insert a new record
+    INSERT INTO table_name (column1, column2, ...)
+    VALUES (value1, value2, ...);
+
+UPDATE
+    -- Modify existing records
+    UPDATE table_name
+    SET column1 = new_value
+    WHERE condition;
+
+DELETE
+    -- Remove records
+    DELETE FROM table_name
+    WHERE condition;
+
+
+Example:
+
+INSERT INTO employees (first_name, last_name, department)
+VALUES ('Jane', 'Smith', 'HR');
+
+
+Inserts a new HR employee into the table.
+
+4) DCL — Data Control Language
+
+Definition:
+DCL commands manage permissions and access control — granting and revoking user privileges.
+
+-- DCL Syntax
+GRANT privilege_type
+    ON object_name
+    TO user_name
+    [WITH GRANT OPTION];
+
+REVOKE privilege_type
+    ON object_name
+    FROM user_name;
+
+
+Example:
+
+GRANT SELECT, UPDATE ON employees TO user_name;
+
+
+This gives user_name permission to select and update data in the employees table.
+
+5) TCL — Transaction Control Language
+
+Definition:
+TCL commands manage transactions, ensuring changes are committed or rolled back as a unit.
+
+-- TCL Commands and Syntax
+BEGIN TRANSACTION;
+    -- Start a transaction
+
+COMMIT;
+    -- Save all changes permanently
+
+ROLLBACK;
+    -- Undo all changes since last commit
+
+SAVEPOINT savepoint_name;
+    -- Create a savepoint within a transaction
+
+
+Example:
+
+BEGIN TRANSACTION;
+UPDATE employees SET department = 'Marketing' WHERE department = 'Sales';
+SAVEPOINT before_update;
+UPDATE employees SET department = 'IT' WHERE department = 'HR';
+ROLLBACK TO SAVEPOINT before_update;
+COMMIT;
+
+
+This example starts a transaction, updates departments, uses a savepoint, rolls back to that point if needed, and commits the change
