@@ -17,8 +17,6 @@ SELECT e.salary FROM Employee e,
 
 JPQL queries entities and fields, not database tables.
 
-
-
 Why does parameterization prevent SQL injections?
 
 String name = userInput; // e.g., "Ivan' OR '1'='1"
@@ -26,10 +24,10 @@ Query query = em.createQuery(
     "SELECT e FROM Employee e WHERE e.name = '" + name + "'"
 );
 List<Employee> result = query.getResultList(); 
-Not secure, because if a user enter Ivan' OR '1'='1', 
-the DB will return true, granting access
+Not secure, because if a user enters Ivan' OR '1'='1', 
+the DB will return true, granting access :(
 
-Correct way :)
+Correct way :D
 
 TypedQuery<Employee> query = em.createQuery(
     "SELECT e FROM Employee e WHERE e.name = :name", Employee.class
@@ -40,4 +38,5 @@ List<Employee> result = query.getResultList();
 In this case :name is a placeholder, 
 and userInput is sent to the db as a value rather than code,
 so it's treated as a string and not SQL code
+
 
