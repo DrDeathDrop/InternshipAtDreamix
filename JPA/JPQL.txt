@@ -1,0 +1,43 @@
+The problems JPQL solves (main 3):
+
+1. Raw SQL depends on table and column names, 
+which vary between databases. 
+JPQL queries use entity class names and fields instead of table and column names. 
+This means the same JPQL query works on MySQL, PostgreSQL, Oracle, 
+or any other database without modification.
+
+2. JPQL works with entities and their relationships, 
+not raw table joins or foreign keys. 
+You can traverse relationships defined in your entity classes
+
+3. Prevents SQL injections
+
+In JPQL we use alias in the queries
+SELECT e.salary FROM Employee e,
+
+JPQL queries entities and fields, not database tables.
+
+
+
+Why does parameterization prevent SQL injections?
+
+String name = userInput; // e.g., "Ivan' OR '1'='1"
+Query query = em.createQuery(
+    "SELECT e FROM Employee e WHERE e.name = '" + name + "'"
+);
+List<Employee> result = query.getResultList(); 
+Not secure, because if a user enter Ivan' OR '1'='1', 
+the DB will return true, granting access
+
+Correct way :)
+
+TypedQuery<Employee> query = em.createQuery(
+    "SELECT e FROM Employee e WHERE e.name = :name", Employee.class
+);
+query.setParameter("name", userInput);
+List<Employee> result = query.getResultList();
+
+In this case :name is a placeholder, 
+and userInput is sent to the db as a value rather than code,
+so it's treated as a string and not SQL code
+
