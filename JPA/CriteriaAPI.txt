@@ -1,0 +1,97 @@
+source: https://www.geeksforgeeks.org/advance-java/jpa-criteria-api/
+
+EntityManagerFactory (EMF) is the factory that creates EntityManager objects.
+Conceptually:
+	It is created once per application
+	It is heavyweight and expensive
+	It manages:
+		> database connection configuration
+		> persistence unit settings
+		> caching
+		> connection pooling integration
+
+EntityManager is the actual object that communicates with the database
+
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.*;
+import model.Employee;
+
+import java.util.List;
+
+public class MainApplication {
+
+    public static void main(String[] args) {
+        // Create EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("example-unit"); <---- This reads persistance.xml
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            // Begin transaction
+            em.getTransaction().begin();
+
+            // Insert sample data
+            persistSampleData(em);
+
+            // Commit transaction
+            em.getTransaction().commit();
+
+            // Create CriteriaBuilder
+            CriteriaBuilder cb = em.getCriteriaBuilder();<-------------------CriteriaBuilder is used to create everything.
+										It is a factory object.
+										You use it to create:
+ 											>CriteriaQuery
+ 											>Predicate (conditions)
+											>Order (sorting)
+ 											>expressions (avg, sum, etc.
+	
+            // Create CriteriaQuery for Employee
+            CriteriaQuery<Employee> cq = cb.createQuery(Employee.class); <--------CriteriaQuery is the main query object. It represents the full SQL statement
+
+            // Define query root
+            Root<Employee> root = cq.from(Employee.class); <------------- Root represents the entity (table) in the FROM clause.
+
+            // Specify selection and condition
+            cq.select(root)
+              .where(cb.greaterThan(root.get("salary"), 50000)); <------Predictate could also be used (it's essentially a WHERE clause), although it's not used here, 
+									we should use it when we are making dynamic queries or combining multiple conditions :)
+									Predicate predicate =
+    									cb.greaterThan(root.get("salary"), 50000);
+									cq.where(predicate);
+
+            // Execute query
+            TypedQuery<Employee> query = em.createQuery(cq);
+            List<Employee> result = query.getResultList();
+
+            System.out.println("Employees with salary > 50000:");
+            result.forEach(e -> System.out.println(e.getName()));
+
+        } finally {
+            em.close();
+            emf.close();
+        }
+
+	
+
+    }
+
+    private static void persistSampleData(EntityManager em) {
+        em.persist(new Employee("Atanas", 60000));
+        em.persist(new Employee("Petar", 75000));
+        em.persist(new Employee("Dragan", 55000));
+        em.persist(new Employee("Ivan", 85000));
+        em.persist(new Employee("Momchil", 35000));
+    }
+}
+
+	The try/finally blocks exist so that even if the try code crashes, there is no resourse leak, and the file doesn't stay locked. 
+	As for the transaction and their usage: 
+	persist() would fail (or behave incorrectly) without a transaction because JPA requires a transaction to make permanent changes in the database.
+	Without a transaction, there is no guarantee of consistency, and most JPA implementations will throw an exception instead of executing the insert.
+	m.persist(new Employee("Atanas", 60000));
+	JPA does NOT immediately insert into the database.
+
+	Instead, it:
+	• puts the object into the persistence context (memory)
+	• marks it as managed
+	• schedules it for insertion
+	And the final insertion happens after .commit or flush
