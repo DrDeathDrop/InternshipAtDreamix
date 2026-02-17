@@ -29,14 +29,25 @@ the DB will return true, granting access :(
 
 Correct way :D
 
+Named Parameter ":nameOfParameter"
 TypedQuery<Employee> query = em.createQuery(
     "SELECT e FROM Employee e WHERE e.name = :name", Employee.class
 );
 query.setParameter("name", userInput);
 List<Employee> result = query.getResultList();
 
+OR
+
+Positional parameter "?numberOfPosition"
+TypedQuery<Employee> query = em.createQuery(
+    "SELECT e FROM Employee e WHERE e.name = ?1", Employee.class
+);
+query.setParameter(1, userInput);
+List<Employee> result = query.getResultList();
+
 In this case :name is a placeholder, 
 and userInput is sent to the db as a value rather than code,
 so it's treated as a string and not SQL code
+
 
 
