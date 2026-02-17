@@ -55,8 +55,8 @@ public class MainApplication {
 
             // Specify selection and condition
             cq.select(root)
-              .where(cb.greaterThan(root.get("salary"), 50000)); <------Predictate could also be used (it's essentially a WHERE clause), although it's not 																		used here, we should use it when we are making dynamic queries or
-																		combining multiple conditions :)
+              .where(cb.greaterThan(root.get("salary"), 50000)); <------Predictate could also be used (it's essentially a WHERE clause), although it's not 																used here, we should use it when we are making dynamic queries or
+																combining multiple conditions :)
 
 																		Predicate predicate =
     																	cb.greaterThan(root.get("salary"), 50000);
@@ -100,5 +100,6 @@ public class MainApplication {
 	• marks it as managed
 	• schedules it for insertion
 	And the final insertion happens after .commit or flush
+
 
 
