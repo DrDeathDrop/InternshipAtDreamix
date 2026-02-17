@@ -127,12 +127,13 @@ public List<User> searchUsers(String name, Integer age) {
             cb.equal(root.get("age"), age));
     }
 
-    cq.where(predicates.toArray(new Predicate[0]));  <------------- We are using a List, because we			 																												don't know how many conditions we'll encounter,
+    cq.where(predicates.toArray(new Predicate[0]));  <------------- We are using a List, because we	don't know how many conditions we'll encounter,
 																	might be 1,5 or 42. 
 																	A List is dynamic, so it does the job.
 
     return entityManager.createQuery(cq).getResultList();
 }
+
 
 
 
