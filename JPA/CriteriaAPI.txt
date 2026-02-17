@@ -1,5 +1,7 @@
 source: https://www.geeksforgeeks.org/advance-java/jpa-criteria-api/
 
+NOTE: CriteriaAPI CAN be used outside of a transaction, but only select or read-only queries. Any update or delete, cannot be used outside of a transaction.
+
 EntityManagerFactory (EMF) is the factory that creates EntityManager objects.
 Conceptually:
 	It is created once per application
@@ -98,4 +100,5 @@ public class MainApplication {
 	• marks it as managed
 	• schedules it for insertion
 	And the final insertion happens after .commit or flush
+
 
