@@ -1,4 +1,5 @@
 source: https://www.geeksforgeeks.org/advance-java/jpa-criteria-api/
+The explanations are made by yours truly :)
 
 NOTE: CriteriaAPI CAN be used outside of a transaction, but only select or read-only queries. Any update or delete, cannot be used outside of a transaction.
 
@@ -132,6 +133,7 @@ public List<User> searchUsers(String name, Integer age) {
 
     return entityManager.createQuery(cq).getResultList();
 }
+
 
 
 
