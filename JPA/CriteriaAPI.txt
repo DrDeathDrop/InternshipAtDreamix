@@ -55,16 +55,18 @@ public class MainApplication {
 
             // Specify selection and condition
             cq.select(root)
-              .where(cb.greaterThan(root.get("salary"), 50000)); <------Predictate could also be used (it's essentially a WHERE clause), although it's not 																used here, we should use it when we are making dynamic queries or
+              .where(cb.greaterThan(root.get("salary"), 50000)); <------Predictate could also be used (it's essentially a WHERE clause), although it's not 
+																used here, we should use it when we are making dynamic queries or
 																combining multiple conditions :)
-
 																		Predicate predicate =
     																	cb.greaterThan(root.get("salary"), 50000);
 																		cq.where(predicate);
 
             // Execute query
-            TypedQuery<Employee> query = em.createQuery(cq); <------- A TypedQuery is a JPA interface that represents a strongly-typed JPQL query, meaning 																		  the result type is known at compile time instead of being just a generic Object.
-																		  The TypedQuery is created by the EntityManager, which is the main JPA class 																			  responsible for communicating with the database.
+            TypedQuery<Employee> query = em.createQuery(cq); <------- A TypedQuery is a JPA interface that represents a strongly-typed JPQL query, meaning 
+																		the result type is known at compile time instead of being just a generic Object.
+																		  The TypedQuery is created by the EntityManager, which is the main JPA class
+																					responsible for communicating with the database.
             List<Employee> result = query.getResultList();
 
             System.out.println("Employees with salary > 50000:");
@@ -100,6 +102,7 @@ public class MainApplication {
 	• marks it as managed
 	• schedules it for insertion
 	And the final insertion happens after .commit or flush
+
 
 
 
