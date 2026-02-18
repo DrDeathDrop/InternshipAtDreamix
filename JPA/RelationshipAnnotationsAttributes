@@ -1,0 +1,55 @@
+1. Cascade - Controls what happens to related entities when the parent changes.
+  1.1 Persist Use: When you save parent -> child saves automatically
+    @OneToMany(cascade = CascadeType.PERSIST)
+
+  1.2 Merge Use: When you update parent -> child updates automatically
+    @OneToMany(cascade = CascadeType.MERGE)
+
+  1.3 Remove Use: When you delete parent -> child deleted automatically
+    @OneToMany(cascade = CascadeType.REMOVE)
+
+  1.4 Refresh Use: Refresh child when parent refreshed
+    @OneToMany(cascade = CascadeType.REFRESH)
+
+  1.5 Detach Use: Removes child from persistence context
+    @OneToMany(cascade = CascadeType.DEACH)
+
+  1.6 All Use: uses all cascade options
+    @OneToMany(cascade = CascadeType.ALL)
+
+
+2. Fetch - Controls loading timing.
+  2.1 Eager Use: Load immediately
+    @ManyToOne(fetch = FetchType.EAGER)
+
+  2.2 Lazy Use: Load only when accessed
+    @ManyToOne(fetch = FetchType.LAZY)
+
+
+3. Optional - Controls whether a relationship is required
+  3.1 True (default) Use: Relationship can be null
+      @ManyToOne(optional = true)
+
+  3.2 False Use: Relationship is absolutely required.
+      @ManyToOne(optional = false)
+
+
+4. OrphanRemoval - Controls if a child with no parents is removed
+  4.1 True Use: if a parent is removed, so is its child
+  4.2 False Use: if a parent is removed, the child isn't
+
+
+5. TargetEntity - explicitly specifies the related class
+    Use: When type cannot be inferred automatically.
+
+
+6. @JoinColumn attributes -> control foreign key column. These define physical database column behavior.
+  6.1 Name Use: Defines column name
+
+  6.2 Nullable -> Controls NULL allowed
+      nullable = false -> required
+      nullable = true -> optional
+
+  6.3 unique -> Ensures uniqueness
+      Used in one-to-one relationships
+      Prevents duplicates
